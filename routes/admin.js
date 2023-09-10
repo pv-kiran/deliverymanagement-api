@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
+const { isLoggedIn, isAdmin } = require("../middleware/authMiddleware");
 const {
   getVendor,
   getVendors,
   addVendor,
   updateVendor,
   deleteVendor,
-} = require("../controllers/adminController");
-const { isLoggedIn, isAdmin } = require("../middleware/authMiddleware");
+} = require("../controllers/admin/vendorController");
 
 // @type : GET
 //  parameters : verdorId

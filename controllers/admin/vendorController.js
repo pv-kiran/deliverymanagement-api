@@ -1,10 +1,10 @@
+const Vendor = require("../../models/vendor");
 const {
   validateVendorCreation,
   validateVendorUpdate,
-} = require("../utils/validation");
+} = require("../../utils/validation");
 
-const Vendor = require("../models/vendor");
-
+// vendor related logic - Vendor CRUD
 const getVendor = async (req, res) => {
   const { id } = req.params;
   try {

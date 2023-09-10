@@ -1,11 +1,16 @@
 const express = require("express");
+const router = express.Router();
+// admin authentication controller
 const {
   adminSignup,
   adminSignin,
-  driverSignin,
+} = require("../controllers/auth/adminController");
+
+// driver authentication controller
+const {
   driverSignup,
-} = require("../controllers/authController");
-const router = express.Router();
+  driverSignin,
+} = require("../controllers/auth/driverController");
 
 // @type : POST
 // description : Admin registration
