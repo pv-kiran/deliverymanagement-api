@@ -96,9 +96,16 @@ const validateVendorUpdate = Joi.object({
   }),
 });
 
+const categoryValidate = Joi.object({
+  name: Joi.string().required().messages({
+    "any.required": "Name is required",
+  }),
+});
+
 module.exports = {
   signupValidation,
   signinValidation,
   validateVendorCreation,
   validateVendorUpdate,
+  categoryValidate,
 };
