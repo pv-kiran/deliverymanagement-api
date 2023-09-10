@@ -5,13 +5,36 @@ const vendorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
+  phoneNumber: {
     type: String,
     required: true,
   },
-  phone: {
+  email: {
     type: String,
     required: true,
+    unique: true,
+  },
+  shopDetails: {
+    type: String,
+    required: true,
+  },
+  address: {
+    street: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    pinCode: {
+      type: String,
+      required: true,
+    },
   },
 });
 
