@@ -13,13 +13,15 @@ const adminSignup = async (req, res) => {
       message: error.details[0]?.message,
     });
   }
-  const { email, password } = req.body;
+  const { email, password, mobile } = req.body;
   // checking for the existance of email
-  const adminExist = await Admin.findOne({ email: email });
+  const adminExist = await Admin.findOne({
+    $or: [{ email: email }, { mobile: mobile }],
+  });
   if (adminExist) {
     return res
       .status(409)
-      .json({ success: false, message: "Email already exists" });
+      .json({ success: false, message: "Admin already exists" });
   }
 
   // hashing the password

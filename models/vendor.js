@@ -5,7 +5,7 @@ const vendorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  phoneNumber: {
+  mobile: {
     type: String,
     required: true,
   },
@@ -14,7 +14,7 @@ const vendorSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  shopDetails: {
+  shopName: {
     type: String,
     required: true,
   },
