@@ -96,9 +96,63 @@ const validateVendorUpdate = Joi.object({
   }),
 });
 
+// validation for category data - (admin operation create/update vendor)
 const categoryValidate = Joi.object({
   name: Joi.string().required().messages({
     "any.required": "Name is required",
+  }),
+});
+
+// validation for product data - (admin operation create product)
+const validateProductCreation = Joi.object({
+  name: Joi.string().required().messages({
+    "any.required": "Name is required",
+  }),
+  price: Joi.number().required().messages({
+    "any.required": "Price is required",
+  }),
+  // image: Joi.object({
+  //   public_id: Joi.string(),
+  //   secure_url: Joi.string(),
+  // }),
+  description: Joi.string().required().messages({
+    "any.required": "Description is required",
+  }),
+  category: Joi.string().hex().length(24).required().messages({
+    "any.required": "Category is required",
+    "string.hex": "Category must be a valid ObjectId",
+    "string.length": "Category must be a 24-character hexadecimal string",
+  }),
+  stock: Joi.number().required().messages({
+    "any.required": "Stock is required",
+  }),
+});
+
+// validation for product data - (admin operation update product)
+const validateProductUpdate = Joi.object({
+  name: Joi.string().messages({
+    "string.base": "Name must be a string",
+  }),
+  price: Joi.number().messages({
+    "number.base": "Price must be a number",
+  }),
+  // image: Joi.object({
+  //   public_id: Joi.string().messages({
+  //     "string.base": "Image public_id must be a string",
+  //   }),
+  //   secure_url: Joi.string().messages({
+  //     "string.base": "Image secure_url must be a string",
+  //   }),
+  // }),
+  description: Joi.string().messages({
+    "string.base": "Description must be a string",
+  }),
+  category: Joi.string().hex().length(24).messages({
+    "string.base": "Category must be a hexadecimal string",
+    "string.length": "Category must be a 24-character hexadecimal string",
+  }),
+  stock: Joi.number().messages({
+    "number.base": "Stock must be a number",
   }),
 });
 
@@ -108,4 +162,6 @@ module.exports = {
   validateVendorCreation,
   validateVendorUpdate,
   categoryValidate,
+  validateProductCreation,
+  validateProductUpdate,
 };

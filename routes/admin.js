@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+// middlewares
 const { isLoggedIn, isAdmin } = require("../middleware/authMiddleware");
 // vendor crud related controllers
 const {
@@ -10,6 +10,7 @@ const {
   updateVendor,
   deleteVendor,
 } = require("../controllers/admin/vendorController");
+// category crud related controllers
 const {
   getCategories,
   getCategory,
@@ -17,6 +18,14 @@ const {
   updateCategory,
   deleteCategory,
 } = require("../controllers/admin/categoryController");
+// product crud related controllers
+const {
+  getProduct,
+  getProducts,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+} = require("../controllers/admin/productController");
 
 //  ................. VENDOR RELATED LOGIC .................. //
 
@@ -39,15 +48,16 @@ router.put("/vendor/:id", isLoggedIn, isAdmin, updateVendor);
 // description : To delete a vendor
 router.delete("/vendor/:id", isLoggedIn, isAdmin, deleteVendor);
 
-// .......................... CATEGORY RELATED LOGIC ................... //
+// ................... CATEGORY RELATED LOGIC ................... //
+
+// @type : GET
+// description - View a category
+// parameters : prodcutId
+router.get("/category/:id", isLoggedIn, isAdmin, getCategory);
 
 // @type : GET
 // description - View all category
 router.get("/categories", isLoggedIn, isAdmin, getCategories);
-
-// @type : GET
-// description - View a category
-router.get("/category/:id", isLoggedIn, isAdmin, getCategory);
 
 // @type : POST
 // description - Add a category
@@ -60,5 +70,27 @@ router.put("/category/:id", isLoggedIn, isAdmin, updateCategory);
 // type : DELETE
 // description - Delete a category
 router.delete("/category/:id", isLoggedIn, isAdmin, deleteCategory);
+
+// .................... PRODUCT RELATED ROUTES ...................... //
+
+// @type : GET
+// description - View a product
+router.get("/product/:id", isLoggedIn, isAdmin, getProduct);
+
+// @type : GET
+// description - View all products
+router.get("/products", isLoggedIn, isAdmin, getProducts);
+
+// @type : POST
+// description - Add a prodcut
+router.post("/add/product", isLoggedIn, isAdmin, addProduct);
+
+// @type : PUT
+// description - Add a prodcut
+router.put("/product/:id", isLoggedIn, isAdmin, updateProduct);
+
+// @type : DELETE
+// description - Delete a product
+router.delete("/product/:id", isLoggedIn, isAdmin, deleteProduct);
 
 module.exports = router;

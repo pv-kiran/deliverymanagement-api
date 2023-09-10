@@ -1,23 +1,22 @@
-const Vendor = require("../../models/vendor");
+const Product = require("../../models/product");
 const {
-  validateVendorCreation,
-  validateVendorUpdate,
+  validateProductCreation,
+  validateProductUpdate,
 } = require("../../utils/validation");
 
-// vendor related logic - Vendor CRUD
-const getVendor = async (req, res) => {
+const getProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const vendorExist = await Vendor.findOne({ _id: id });
-    if (vendorExist) {
+    const productExist = await Product.findOne({ _id: id });
+    if (productExist) {
       return res.status(200).json({
         success: true,
-        vendorExist,
+        productExist,
       });
     }
     res.status(404).json({
       success: false,
-      message: "No vendor found",
+      message: "No product found",
     });
   } catch (err) {
     res.status(500).json({
@@ -27,13 +26,13 @@ const getVendor = async (req, res) => {
   }
 };
 
-const getVendors = async (req, res) => {
+const getProducts = async (req, res) => {
   try {
-    const allVendors = await Vendor.find({});
-    if (allVendors.length > 0) {
+    const allProducts = await Product.find({});
+    if (allProducts.length > 0) {
       return res.status(200).json({
         success: true,
-        allVendors,
+        allProducts,
       });
     }
     res.status(404).json({
@@ -48,30 +47,24 @@ const getVendors = async (req, res) => {
   }
 };
 
-const addVendor = async (req, res) => {
-  const { error } = validateVendorCreation.validate(req.body);
+const addProduct = async (req, res) => {
+  const { error } = validateProductCreation.validate(req.body);
   if (error) {
     return res.status(400).json({
       success: false,
       message: error.details[0]?.message,
     });
   }
-
   try {
-    const { email, mobile } = req.body;
-    const vendorExist = await Vendor.findOne({
-      $or: [{ email: email, mobile: mobile }],
-    });
-    if (vendorExist) {
+    const { name } = req.body;
+    const productExist = await Product.findOne({ name: name });
+    if (productExist) {
       return res
         .status(409)
-        .json({ success: false, message: "Vendor already exists" });
+        .json({ success: false, message: "Product already exists" });
     }
-    const newVendor = await Vendor.create(req.body);
-    res.status(201).json({
-      success: true,
-      newVendor,
-    });
+    const newProduct = await Product.create(req.body);
+    res.status(201).json({ success: true, newProduct });
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -80,9 +73,9 @@ const addVendor = async (req, res) => {
   }
 };
 
-const updateVendor = async (req, res) => {
+const updateProduct = async (req, res) => {
   const { id } = req.params;
-  const { error } = validateVendorUpdate.validate(req.body);
+  const { error } = validateProductUpdate.validate(req.body);
   if (error) {
     return res.status(400).json({
       success: false,
@@ -90,18 +83,18 @@ const updateVendor = async (req, res) => {
     });
   }
   try {
-    const updatedVendor = await Vendor.findByIdAndUpdate(id, req.body, {
+    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    if (updatedVendor) {
+    if (updatedProduct) {
       return res.status(200).json({
         success: true,
-        updatedVendor,
+        updatedProduct,
       });
     }
     res.status(404).json({
       success: false,
-      message: "No vendor found",
+      message: "No product found",
     });
   } catch (err) {
     res.status(500).json({
@@ -111,19 +104,19 @@ const updateVendor = async (req, res) => {
   }
 };
 
-const deleteVendor = async (req, res) => {
+const deleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedVendor = await Vendor.findByIdAndDelete(id);
-    if (deletedVendor) {
+    const deletedproduct = await Product.findByIdAndDelete(id);
+    if (deletedproduct) {
       return res.status(200).json({
         success: true,
-        message: "Vendor is deleted",
+        message: "Product is deleted",
       });
     }
     res.status(404).json({
       success: false,
-      message: "Vendor not found",
+      message: "Product not found",
     });
   } catch (err) {
     console.log(err);
@@ -135,9 +128,9 @@ const deleteVendor = async (req, res) => {
 };
 
 module.exports = {
-  getVendor,
-  getVendors,
-  addVendor,
-  updateVendor,
-  deleteVendor,
+  getProduct,
+  getProducts,
+  addProduct,
+  updateProduct,
+  deleteProduct,
 };
