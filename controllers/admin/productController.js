@@ -7,7 +7,9 @@ const {
 const getProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const productExist = await Product.findOne({ _id: id });
+    const productExist = await Product.findOne({ _id: id }).populate(
+      "category"
+    );
     if (productExist) {
       return res.status(200).json({
         success: true,
@@ -28,7 +30,7 @@ const getProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    const allProducts = await Product.find({});
+    const allProducts = await Product.find({}).populate("category");
     if (allProducts.length > 0) {
       return res.status(200).json({
         success: true,
@@ -63,7 +65,7 @@ const addProduct = async (req, res) => {
         .status(409)
         .json({ success: false, message: "Product already exists" });
     }
-    const newProduct = await Product.create(req.body);
+    const newProduct = (await Product.create(req.body)).populate("category");
     res.status(201).json({ success: true, newProduct });
   } catch (err) {
     res.status(500).json({
@@ -85,7 +87,7 @@ const updateProduct = async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(id, req.body, {
       new: true,
-    });
+    }).populate("category");
     if (updatedProduct) {
       return res.status(200).json({
         success: true,

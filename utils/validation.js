@@ -94,7 +94,7 @@ const validateVendorUpdate = Joi.object({
     state: Joi.string(),
     pinCode: Joi.string(),
   }),
-});
+}).min(1);
 
 // validation for category data - (admin operation create/update vendor)
 const categoryValidate = Joi.object({
@@ -154,8 +154,39 @@ const validateProductUpdate = Joi.object({
   stock: Joi.number().messages({
     "number.base": "Stock must be a number",
   }),
-});
+}).min(1);
 
+// validation for driver data - (driver operation - update profile)
+const indianDrivingLicensePattern = /^[A-Z]{2}\d{2}(19|20)\d{2}[0-9]{7}$/;
+const validateDriverUpdate = Joi.object({
+  name: Joi.string(),
+  mobile: Joi.string()
+    .pattern(/^[0-9]{10}$/)
+    .message(
+      "Invalid mobile provided. Please provide a valid 10-digit mobile number."
+    ),
+  email: Joi.string()
+    .email()
+    .message("Invalid email provided. Please provide a valid email address."),
+  shopDetails: Joi.string(),
+  address: Joi.object({
+    street: Joi.string(),
+    city: Joi.string(),
+    state: Joi.string(),
+    pinCode: Joi.string(),
+  }),
+  drivingLicence: Joi.string()
+    .pattern(indianDrivingLicensePattern)
+    .optional()
+    .messages({
+      "string.pattern.base":
+        "Invalid Indian driving license format. Please provide a valid Indian driving license.",
+    }),
+})
+  .min(1)
+  .messages({
+    "object.min": "Please provide valid data to be updated.",
+  });
 module.exports = {
   signupValidation,
   signinValidation,
@@ -164,4 +195,5 @@ module.exports = {
   categoryValidate,
   validateProductCreation,
   validateProductUpdate,
+  validateDriverUpdate,
 };
