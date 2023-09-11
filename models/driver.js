@@ -23,19 +23,15 @@ const driverSchema = new mongoose.Schema({
   address: {
     street: {
       type: String,
-      required: true,
     },
     city: {
       type: String,
-      required: true,
     },
     state: {
       type: String,
-      required: true,
     },
     pinCode: {
       type: String,
-      required: true,
     },
   },
   cart: [
