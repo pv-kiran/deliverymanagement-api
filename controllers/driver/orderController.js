@@ -1,7 +1,6 @@
 const Driver = require("../../models/driver");
 const Order = require("../../models/order");
 const Product = require("../../models/product");
-const Vendor = require("../../models/vendor");
 
 const createOrder = async (req, res) => {
   try {
@@ -123,7 +122,7 @@ const cancelOrder = async (req, res) => {
       // update stock - on cancelling the order
       const updateStock = async (productId, quantity) => {
         const product = await Product.findOne({ _id: productId });
-        product.stock = product.stock - quantity;
+        product.stock = product.stock + quantity;
         product.save({ validateBeforeSave: false });
       };
       // updating the product stock once the order is success

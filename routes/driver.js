@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+// .................. MIDDLEWARES  .................. //
+
 const { isLoggedIn, isDriver } = require("../middleware/authMiddleware");
+
+// ...................... IMPORTING CONTROLLERS .............. //
+
 // vendor related controller logic - for drivers
 const {
   viewVendors,
@@ -20,6 +25,13 @@ const {
   cartItemDecrement,
   removeCartItem,
 } = require("../controllers/driver/cartController");
+// product related controller - for drivers (reusing - logic is already defined in admin related controllers)
+const {
+  getProducts,
+  getProduct,
+} = require("../controllers/admin/productController");
+
+// .................... ROUTE CONFIGURATIONS ..................... //
 
 // @Type - GET
 // description - View all vendors
@@ -28,6 +40,14 @@ router.get("/view/vendors", isLoggedIn, isDriver, viewVendors);
 // @Type - GET
 // description - View a vendor
 router.get("/view/vendor/:id", isLoggedIn, isDriver, viewVendor);
+
+// @Type - GET
+// description - View all products
+router.get("/view/products", isLoggedIn, isDriver, getProducts);
+
+// @Type - GET
+// description - View a product
+router.get("/view/product/:id", isLoggedIn, isDriver, getProduct);
 
 // @Type - GET
 // description - View driver profile (my profile)

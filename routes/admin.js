@@ -26,6 +26,15 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/admin/productController");
+// order related controllers
+const {
+  viewAllOrders,
+  viewOrder,
+  approveOrder,
+  cancelOrder,
+} = require("../controllers/admin/orderController");
+
+// .................. ROUTE CONFIGURATION .................... //
 
 //  ................. VENDOR RELATED LOGIC .................. //
 
@@ -92,5 +101,23 @@ router.put("/product/:id", isLoggedIn, isAdmin, updateProduct);
 // @type : DELETE
 // description - Delete a product
 router.delete("/product/:id", isLoggedIn, isAdmin, deleteProduct);
+
+// .................... ORDER RELATED LOGIC ........................... //
+
+// @ Type - GET
+// Description - View all the orders
+router.get("/orders", isLoggedIn, isAdmin, viewAllOrders);
+
+// @ Type - GET
+// Description - View a specific order :
+router.get("/order/:id", isLoggedIn, isAdmin, viewOrder);
+
+// @ Type - PUT
+// Description - Approving an order by admin
+router.put("/order/:id/approve", isLoggedIn, isAdmin, approveOrder);
+
+// @ Type - PUT
+// Description - Canceling an order by admin
+router.put("/order/:id/cancel", isLoggedIn, isAdmin, cancelOrder);
 
 module.exports = router;
