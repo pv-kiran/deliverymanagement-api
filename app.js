@@ -22,10 +22,12 @@ dotenv.config();
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const driverRoutes = require("./routes/driver");
+const orderRoutes = require("./routes/order");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/driver", driverRoutes);
+app.use("/api/order", orderRoutes);
 
 // ensures the db connection before server is up and running
 connect()
