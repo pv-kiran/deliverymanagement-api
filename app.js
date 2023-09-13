@@ -18,6 +18,10 @@ app.use(cors({ origin: "*", credentials: true }));
 // for accessing the env variables
 dotenv.config();
 
+// handling files
+const fileupload = require("express-fileupload");
+app.use(fileupload({ useTempFiles: true, tempFileDir: "/temp/" }));
+
 //application routes and its configuration
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");

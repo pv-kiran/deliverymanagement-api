@@ -40,6 +40,7 @@ const {
   updateDriver,
   deleteDriver,
 } = require("../controllers/admin/driverController");
+const uploadFile = require("../middleware/fileUpload");
 
 // .................. ROUTE CONFIGURATION .................... //
 
@@ -117,7 +118,7 @@ router.get("/products", isLoggedIn, isAdmin, getProducts);
 
 // @type : POST
 // description - Add a prodcut
-router.post("/add/product", isLoggedIn, isAdmin, addProduct);
+router.post("/add/product", isLoggedIn, isAdmin, uploadFile, addProduct);
 
 // @type : PUT
 // description - Add a prodcut
