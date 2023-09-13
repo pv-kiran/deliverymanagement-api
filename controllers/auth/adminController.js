@@ -93,7 +93,21 @@ const adminSignin = async (req, res) => {
   });
 };
 
+const adminSignout = (req, res) => {
+  res
+    .status(200)
+    .cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    })
+    .json({
+      success: true,
+      message: "Logout Success",
+    });
+};
+
 module.exports = {
   adminSignup,
   adminSignin,
+  adminSignout,
 };

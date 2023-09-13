@@ -93,7 +93,21 @@ const driverSignin = async (req, res) => {
   });
 };
 
+const driverSignout = (req, res) => {
+  res
+    .status(200)
+    .cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    })
+    .json({
+      success: true,
+      message: "Logout Success",
+    });
+};
+
 module.exports = {
   driverSignup,
   driverSignin,
+  driverSignout,
 };
