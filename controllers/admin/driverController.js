@@ -73,7 +73,7 @@ const updateDriver = async (req, res) => {
 const deleteDriver = async (req, res) => {
   const { id } = req.params;
   try {
-    const driver = await Driver.findByIdAndDelete({ id });
+    const driver = await Driver.findByIdAndDelete({ _id: id });
     if (driver) {
       return res
         .status(200)
@@ -84,6 +84,7 @@ const deleteDriver = async (req, res) => {
       message: "driver not found",
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",

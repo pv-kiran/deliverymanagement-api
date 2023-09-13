@@ -16,6 +16,19 @@ const createOrder = async (req, res) => {
     }
     // shipping address - since the order is made by driver, driver's address is selected as shipping address
     const shippingInfo = driver.address;
+    // check whether address is present in driver profile
+    if (
+      !shippingInfo.city ||
+      !shippingInfo.street ||
+      !shippingInfo.pinCode ||
+      !shippingInfo.state
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Please provide a valid shipping address , address is missing in driver profile",
+      });
+    }
     // find out the total amount of the order
     const totalAmount = driver.cart.reduce((total, item) => {
       return total + item.quantity * item.productId.price;
@@ -49,10 +62,9 @@ const createOrder = async (req, res) => {
       "-password"
     );
 
-    res.json({ suceess: true, newOrder });
+    return res.json({ suceess: true, newOrder });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       messagge: "Internal server error",
     });
@@ -71,9 +83,9 @@ const viewAllOrders = async (req, res) => {
         message: "No orders found for this driver",
       });
     }
-    res.status(200).json({ success: true, driverOrders });
+    return res.status(200).json({ success: true, driverOrders });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       messagge: "Internal server error",
     });
@@ -91,15 +103,14 @@ const viewOrder = async (req, res) => {
       "-password"
     );
     if (driverOrder) {
-      res.status(200).json({ success: true, driverOrder });
+      return res.status(200).json({ success: true, driverOrder });
     }
     return res.status(404).json({
       success: false,
       message: "No order found",
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       messagge: "Internal server error",
     });

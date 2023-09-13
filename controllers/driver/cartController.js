@@ -46,6 +46,7 @@ const addToCart = async (req, res) => {
         if (driver.cart.length === 0) {
           driver.cart.push(item);
           await driver.save();
+          await driver.populate("cart.vendorId cart.productId");
           return res.status(201).json({
             success: true,
             message: "Item added to cart",
@@ -63,6 +64,7 @@ const addToCart = async (req, res) => {
         if (existingIndex === -1) {
           driver.cart.push(item);
           await driver.save();
+          await driver.populate("cart.vendorId cart.productId");
           return res.status(201).json({
             success: true,
             message: "Item added to cart",
@@ -72,13 +74,15 @@ const addToCart = async (req, res) => {
         // item is already in the cart - same product for same vendor - increase the quantity
         driver.cart[existingIndex].quantity += 1;
         await driver.save();
+        await driver.populate("cart.vendorId cart.productId");
         return res.status(200).json({
           success: true,
           message: "Cart is updated",
           cart: driver.cart,
         });
       } catch (err) {
-        res.status(500).json({
+        console.log(err);
+        return res.status(500).json({
           success: false,
           messagge: "Internal server error",
         });
@@ -89,6 +93,7 @@ const addToCart = async (req, res) => {
       message: `Product or Vendor not found`,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       messagge: "Internal server error",
@@ -99,7 +104,9 @@ const addToCart = async (req, res) => {
 const cartItemIncrement = async (req, res) => {
   const { id } = req.params;
   try {
-    const driver = await Driver.findOne({ _id: req.userId });
+    const driver = await Driver.findOne({ _id: req.userId }).populate(
+      "cart.vendorId cart.productId"
+    );
     const existingIndex = driver.cart.findIndex((item) => {
       return item._id.valueOf() === `${id}`;
     });
@@ -126,7 +133,9 @@ const cartItemIncrement = async (req, res) => {
 const cartItemDecrement = async (req, res) => {
   const { id } = req.params;
   try {
-    const driver = await Driver.findOne({ _id: req.userId });
+    const driver = await Driver.findOne({ _id: req.userId }).populate(
+      "cart.vendorId cart.productId"
+    );
     const existingIndex = driver.cart.findIndex((item) => {
       return item._id.valueOf() === `${id}`;
     });
@@ -161,7 +170,9 @@ const cartItemDecrement = async (req, res) => {
 const removeCartItem = async (req, res) => {
   const { id } = req.params;
   try {
-    const driver = await Driver.findOne({ _id: req.userId });
+    const driver = await Driver.findOne({ _id: req.userId }).populate(
+      "cart.productId cart.vendorId"
+    );
     const existingIndex = driver.cart.findIndex((item) => {
       return item._id.valueOf() === `${id}`;
     });
