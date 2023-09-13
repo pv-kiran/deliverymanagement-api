@@ -186,10 +186,30 @@ const removeCartItem = async (req, res) => {
   }
 };
 
+const clearCart = async (req, res) => {
+  try {
+    const driver = await Driver.findOne({ _id: req.userId });
+    driver.cart = [];
+    await driver.save();
+    return res.status(200).json({
+      success: true,
+      message: "cart is cleared",
+      cart: driver.cart,
+    });
+  } catch (err) {
+    return res.status(200).json({
+      success: true,
+      message: "Item removed",
+      cart: driver.cart,
+    });
+  }
+};
+
 module.exports = {
   viewCart,
   addToCart,
   cartItemIncrement,
   cartItemDecrement,
   removeCartItem,
+  clearCart,
 };

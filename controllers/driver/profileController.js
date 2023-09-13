@@ -2,9 +2,11 @@ const Driver = require("../../models/driver");
 const { validateDriverUpdate } = require("../../utils/validation");
 
 const viewProfile = async (req, res) => {
-  const { id } = req.params;
   try {
-    const driverExist = await Driver.findOne({ _id: id }, { password: 0 });
+    const driverExist = await Driver.findOne(
+      { _id: req.userId },
+      { password: 0 }
+    );
     if (driverExist) {
       return res.status(200).json({
         success: true,
@@ -24,7 +26,6 @@ const viewProfile = async (req, res) => {
 };
 
 const updateProfile = async (req, res) => {
-  const { id } = req.params;
   const { error } = validateDriverUpdate.validate(req.body);
   if (error) {
     return res.status(400).json({
@@ -33,7 +34,7 @@ const updateProfile = async (req, res) => {
     });
   }
   try {
-    const updatedDriver = await Driver.findByIdAndUpdate(id, req.body, {
+    const updatedDriver = await Driver.findByIdAndUpdate(req.userId, req.body, {
       new: true,
     });
     if (updatedDriver) {
@@ -55,7 +56,29 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const deleteProfile = async (req, res) => {
+  try {
+    const deleteDriver = await Driver.findByIdAndDelete(req.userId);
+    if (deleteDriver) {
+      return res.status(200).json({
+        success: true,
+        message: "Driver profile is deleted",
+      });
+    }
+    return res.status(404).json({
+      success: false,
+      message: "Driver profile not found",
+    });
+  } catch (err) {
+    res.status(404).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
 module.exports = {
   viewProfile,
   updateProfile,
+  deleteProfile,
 };

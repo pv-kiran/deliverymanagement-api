@@ -16,6 +16,7 @@ const {
 const {
   viewProfile,
   updateProfile,
+  deleteProfile,
 } = require("../controllers/driver/profileController");
 //  cart related controller logic - for drivers
 const {
@@ -24,6 +25,7 @@ const {
   cartItemIncrement,
   cartItemDecrement,
   removeCartItem,
+  clearCart,
 } = require("../controllers/driver/cartController");
 // product related controller - for drivers (reusing - logic is already defined in admin related controllers)
 const {
@@ -51,11 +53,15 @@ router.get("/view/product/:id", isLoggedIn, isDriver, getProduct);
 
 // @Type - GET
 // description - View driver profile (my profile)
-router.get("/profile/:id", isLoggedIn, isDriver, viewProfile);
+router.get("/profile", isLoggedIn, isDriver, viewProfile);
 
 // @Type - PUT
 // description - Update the driver profile
-router.put("/profile/:id", isLoggedIn, isDriver, updateProfile);
+router.put("/profile/", isLoggedIn, isDriver, updateProfile);
+
+// @Type - DELETE
+// description - Delet the driver profile
+router.delete("/profile", isLoggedIn, isDriver, deleteProfile);
 
 // @Type - GET
 // description - Get the cart details
@@ -73,8 +79,12 @@ router.put("/cart/:id/increment", isLoggedIn, isDriver, cartItemIncrement);
 // description: Update product in the cart - for decrementing the quantity
 router.put("/cart/:id/decrement", isLoggedIn, isDriver, cartItemDecrement);
 
+// @Type - PUT
+// description - Delete item in the cart
+router.put("/cart/:id", isLoggedIn, isDriver, removeCartItem);
+
 // @Type - DELETE
-// description - Delete product in the cart
-router.delete("/cart/:id", isLoggedIn, isDriver, removeCartItem);
+// description - Delete item in the cart
+router.delete("/cart", isLoggedIn, isDriver, clearCart);
 
 module.exports = router;
