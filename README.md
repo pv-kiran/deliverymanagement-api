@@ -85,11 +85,13 @@ Follow the instructions below to get started with the Wholesale Delivery Managem
    ```bash
    git clone https://github.com/pv-kiran/deliverymanagement-api.git
 
-2. Change into the project directory : 
-     - cd delivery-management
+2. Change into the project directory :
+   ```bash
+   cd deliverymanagement-api
 
-3. Install dependencies:
-     - npm install
+4. Install dependencies:
+   ```bash
+   npm install
 
 ## Environment Variables
 
