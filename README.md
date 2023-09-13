@@ -111,6 +111,7 @@ To run this project, you will need to set up the following environment variables
 ## Usage
 
 1. Start the application:
- - npm start
+   ```bash
+   npm start
 
 
