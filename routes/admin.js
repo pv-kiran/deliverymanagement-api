@@ -33,6 +33,13 @@ const {
   approveOrder,
   cancelOrder,
 } = require("../controllers/admin/orderController");
+// driver related controllers
+const {
+  viewDriver,
+  viewAllDrivers,
+  updateDriver,
+  deleteDriver,
+} = require("../controllers/admin/driverController");
 
 // .................. ROUTE CONFIGURATION .................... //
 
@@ -56,6 +63,24 @@ router.put("/vendor/:id", isLoggedIn, isAdmin, updateVendor);
 //  parameters : verdorId
 // description : To delete a vendor
 router.delete("/vendor/:id", isLoggedIn, isAdmin, deleteVendor);
+
+// ................... DRIVER RELATED LOGIC ......................//
+
+// @Type - GET
+// Description - View all drviers
+router.get("/drivers", isLoggedIn, isAdmin, viewAllDrivers);
+
+// @Type - GET
+// Description - View a drvier
+router.get("/driver/:id", isLoggedIn, isAdmin, viewDriver);
+
+// @Type - PUT
+// Description - Update the doctor profile
+router.put("/driver/:id", isLoggedIn, isAdmin, updateDriver);
+
+// @Type - Delete
+// Description - View a drvier
+router.delete("/driver/:id", isLoggedIn, isAdmin, deleteDriver);
 
 // ................... CATEGORY RELATED LOGIC ................... //
 
